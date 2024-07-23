@@ -3,13 +3,14 @@ import { MUX21X1Data, INVD4Data, layerProperties } from './data.js';
 import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js";
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
 
 // Defining constants that will be used throughout the script
 const constants = {
     width: window.innerWidth,
     height: window.innerHeight,
     offsetScale: 10,
-    highlightColor: 0xFFF000,
+    greyColor: 0xDEDEDE,
     highlightOpacity: 1
 };
 const cellData = MUX21X1Data;
@@ -24,8 +25,7 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 const frontLight = new THREE.DirectionalLight(0xffffff, 1);
 const backLight = new THREE.DirectionalLight(0xffffff, 1);
 const lightTargetObject = new THREE.Object3D();
-
-let highlightedObjects = []; // This will store the objects that are highlighted once clicked
+const exporter = new OBJExporter();
 
 document.addEventListener('DOMContentLoaded', () => {
     // Camera is positioned at the center of the cell bounding box, 1000 units directly above
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas: canvas
     });
     renderer.setSize(constants.width, constants.height);
-    renderer.setAnimationLoop( render );
+    renderer.setAnimationLoop(render);
     const cameraControls = new OrbitControls(camera, renderer.domElement);
     cameraControls.target.set((cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2, (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2, 0);
     window.addEventListener('click', highlightObjects, false);
@@ -70,6 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
         cameraControls.update(delta);
         renderer.render(scene, camera);
     }
+
+    const sceneData = exporter.parse(scene);
+    // console.log(sceneData);
+    // saveFile(sceneData, `${cellData.cellName}.obj`);
 });
 
 const createBox = (coords, heightPos, layerProperties) => {
@@ -236,23 +240,30 @@ function highlightObjects(event) {
     // Reset the opacity of all objects in the scene
     scene.children.forEach(obj => {
         if (obj.isMesh) { // Check if the object is a mesh
-            if (obj.originalOpacity !== undefined) {
-                obj.material.opacity = obj.originalOpacity;
+            if (obj.originalColor !== undefined) {
+                obj.material.color.set(obj.originalColor);
             } else {
-                obj.originalOpacity = obj.material.opacity;
+                obj.originalColor = obj.material.color.getHex();
             }
         }
     });
     if (intersects.length > 0) {
         const touchingObjects = getObjectsTouchingRecursive(intersects[0].object);
-        // Collect all intersected objects
-        // const intersectedObjects = intersects.map(intersect => intersect.object);
         console.log(`There are ${touchingObjects.length} intersected objects`, touchingObjects);
         // Set the opacity of non-intersected objects to 0.2
         scene.children.forEach(obj => {
             if (obj.isMesh && !touchingObjects.includes(obj)) {
-                obj.material.opacity = 0.1;
+                obj.material.color.set(constants.greyColor);
             }
         });
     }
+}
+
+function saveFile(text, filename) {
+    const blob = new Blob([text], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
 }
