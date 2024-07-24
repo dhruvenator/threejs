@@ -170,63 +170,32 @@ const addShapes = (cellData) => {
     }
 };
 
-function getObjectsTouching(selectedObject) {
-    // Create a bounding box for the selected object
-    const selectedBox = new THREE.Box3().setFromObject(selectedObject);
-
-    // Array to store objects that are touching the selected object
+function getObjectsTouchingBFS(selectedObject, maxLevel=2) {
     const touchingObjects = [selectedObject];
-
-    // Iterate through all objects in the scene
-    scene.children.forEach(obj => {
-        if (obj !== selectedObject && obj.isMesh) {
-            // Create a bounding box for the current object
-            const objectBox = new THREE.Box3().setFromObject(obj);
-
-            // Check if the bounding boxes intersect
-            if (selectedBox.intersectsBox(objectBox)) {
-                touchingObjects.push(obj);
-            }
-        }
-    });
-
-    return touchingObjects;
-}
-
-function getObjectsTouchingRecursive(selectedObject, checkedObjects = new Set()) {
-    // Create a bounding box for the selected object
-    const selectedBox = new THREE.Box3().setFromObject(selectedObject);
-
-    // Array to store objects that are touching the selected object
-    const touchingObjects = [selectedObject];
-
-    // Mark the selected object as checked
+    const checkedObjects = new Set();
     checkedObjects.add(selectedObject);
+    const objectQ = [[selectedObject, 0]];
+    let level = 0
+    let currObj = null;
 
-    // Iterate through all objects in the scene
-    scene.children.forEach(obj => {
-        if (obj !== selectedObject && obj.isMesh && !checkedObjects.has(obj)) {
-            // Create a bounding box for the current object
-            const objectBox = new THREE.Box3().setFromObject(obj);
-
-            // Check if the bounding boxes intersect
-            if (selectedBox.intersectsBox(objectBox)) {
-                touchingObjects.push(obj);
-                checkedObjects.add(obj); // Mark this object as checked
-            }
-        }
-    });
-
-    // Recursively check for objects touching the newly found objects
-    touchingObjects.forEach(obj => {
-        const moreTouchingObjects = getObjectsTouching(obj, checkedObjects);
-        moreTouchingObjects.forEach(touchingObj => {
-            if (!touchingObjects.includes(touchingObj)) {
-                touchingObjects.push(touchingObj);
+    while (objectQ.length > 0 && level < maxLevel) {
+        [currObj, level] = objectQ.shift();
+        const selectedBox = new THREE.Box3().setFromObject(currObj);
+        console.log(currObj, level);
+        // Iterate through all objects in the scene
+        scene.children.forEach(obj => {
+            if (!checkedObjects.has(obj) && obj.isMesh) {
+                // Create a bounding box for the current object
+                const objectBox = new THREE.Box3().setFromObject(obj);
+                // Check if the bounding boxes intersect
+                if (selectedBox.intersectsBox(objectBox)) {
+                    touchingObjects.push(obj);
+                    checkedObjects.add(obj);
+                    objectQ.push([obj, level + 1]);
+                }
             }
         });
-    });
-
+    }
     return touchingObjects;
 }
 
@@ -248,7 +217,7 @@ function highlightObjects(event) {
         }
     });
     if (intersects.length > 0) {
-        const touchingObjects = getObjectsTouchingRecursive(intersects[0].object);
+        const touchingObjects = getObjectsTouchingBFS(intersects[0].object);
         console.log(`There are ${touchingObjects.length} intersected objects`, touchingObjects);
         // Set the opacity of non-intersected objects to 0.2
         scene.children.forEach(obj => {
