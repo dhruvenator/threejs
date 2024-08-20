@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { MUX21X1Data, INVD4Data, layerProperties } from './data.js';
+import { MUX21X1Data, INVD4Data, DFFSRData, layerProperties } from './data.js';
 import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js";
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
@@ -13,7 +13,7 @@ const constants = {
     greyColor: 0xDEDEDE,
     highlightOpacity: 1
 };
-const cellData = MUX21X1Data;
+const cellData = DFFSRData;
 
 // Initializing certain neccessary items
 const scene = new THREE.Scene();
@@ -177,7 +177,6 @@ function getObjectsTouchingBFS(selectedObject, maxLevel=2) {
     const objectQ = [[selectedObject, 0]];
     let level = 0
     let currObj = null;
-
     while (objectQ.length > 0 && level < maxLevel) {
         [currObj, level] = objectQ.shift();
         const selectedBox = new THREE.Box3().setFromObject(currObj);
