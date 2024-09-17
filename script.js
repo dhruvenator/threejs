@@ -4,6 +4,7 @@ import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/contro
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
+// import NewMux from "/Users/dhruvix/Documents/twod/mux_json_5/MUX21X1_1_RT_5_360.json" assert {type: "json"};
 
 // Defining constants that will be used throughout the script
 const constants = {
@@ -13,7 +14,7 @@ const constants = {
     greyColor: 0xDEDEDE,
     highlightOpacity: 1
 };
-const cellData = DFFSRData;
+const cellData = MUX21X1Data;
 
 // Initializing certain neccessary items
 const scene = new THREE.Scene();
@@ -30,7 +31,7 @@ const exporter = new OBJExporter();
 document.addEventListener('DOMContentLoaded', () => {
     // Camera is positioned at the center of the cell bounding box, 1000 units directly above
     camera.position.x = (cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2;
-    camera.position.y = (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2;
+    camera.position.y = (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2; // -450
     camera.position.z = 1000;
     scene.add(camera);
 
@@ -71,9 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.render(scene, camera);
     }
 
-    const sceneData = exporter.parse(scene);
+    // const sceneData = exporter.parse(scene);
     // console.log(sceneData);
     // saveFile(sceneData, `${cellData.cellName}.obj`);
+    // const dataURL = renderer.domElement.toDataURL("image/png");
+    // const link = document.createElement("a");
+    // link.href = dataURL;
+    // link.download = 'MUX.png';
+    // link.click();
 });
 
 const createBox = (coords, heightPos, layerProperties) => {
