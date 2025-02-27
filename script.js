@@ -1,33 +1,103 @@
 import * as THREE from 'three';
-import { MUX21X1Data, INVD4Data, DFFSRData, layerProperties } from './data.js';
+import { MUX21X1Data, INVD4Data, DFFSRData, MUXNEW,layerProperties } from './data.js';
 import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js";
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
+import { GUI } from 'dat.gui';
+import { RoundedBoxGeometry } from 'three/examples/jsm/Addons.js';
 // import NewMux from "/Users/dhruvix/Documents/twod/mux_json_5/MUX21X1_1_RT_5_360.json" assert {type: "json"};
 
 // Defining constants that will be used throughout the script
 const constants = {
     width: window.innerWidth,
     height: window.innerHeight,
-    offsetScale: 10,
+    offsetScale: 1,
     greyColor: 0xDEDEDE,
     highlightOpacity: 1
 };
-const cellData = MUX21X1Data;
+const cellData = MUXNEW;
 
 // Initializing certain neccessary items
 const scene = new THREE.Scene();
 const clock = new THREE.Clock();
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
-const camera = new THREE.PerspectiveCamera(75, constants.width / constants.height);
+const camera = new THREE.PerspectiveCamera(75, constants.width / constants.height,1,5000);
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 const frontLight = new THREE.DirectionalLight(0xffffff, 1);
 const backLight = new THREE.DirectionalLight(0xffffff, 1);
 const lightTargetObject = new THREE.Object3D();
 const exporter = new OBJExporter();
 
+const clippingPlaneX= new THREE.Plane(new THREE.Vector3(1,0,0),-cellData.cellBbox[0][0]+5);
+// Create clipping planes
+const clippingPlaneY = new THREE.Plane(new THREE.Vector3(0, 1, 0), -cellData.cellBbox[0][1]+5);  // Y-axis clipping
+const clippingPlaneZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 500);  // Z-axis clipping
+const gui=new GUI();
+gui.add(clippingPlaneX, 'constant', -cellData.cellBbox[1][0]-5 , -cellData.cellBbox[0][0]+5).name('X Clipping Position').onChange(updateClippingPlanes);
+gui.add(clippingPlaneY, 'constant', -cellData.cellBbox[1][1]-5 , -cellData.cellBbox[0][1]+5).name('Y Clipping Position').onChange(updateClippingPlanes);
+gui.add(clippingPlaneZ, 'constant', -500, 500).name('Z Clipping Position').onChange(updateClippingPlanes);
+
+// Event listeners for checkbox & slider controls
+document.getElementById('clipX').addEventListener('change', toggleClipX);
+document.getElementById('clipY').addEventListener('change', toggleClipY);
+document.getElementById('clipZ').addEventListener('change', toggleClipZ);
+
+document.getElementById('xClipSlider').addEventListener('input', (e) => {
+    clippingPlaneX.constant = parseFloat(e.target.value);
+    updateClippingPlanes();
+});
+
+document.getElementById('yClipSlider').addEventListener('input', (e) => {
+    clippingPlaneY.constant = parseFloat(e.target.value);
+    updateClippingPlanes();
+});
+
+document.getElementById('zClipSlider').addEventListener('input', (e) => {
+    clippingPlaneZ.constant = parseFloat(e.target.value);
+    updateClippingPlanes();
+});
+
+// Default state for clipping
+let clipXEnabled = false;
+let clipYEnabled = false;
+let clipZEnabled = false;
+
+function toggleClipX() {
+    clipXEnabled = !clipXEnabled;
+    document.getElementById('xClipSlider').disabled = !clipXEnabled;
+    updateClippingPlanes();
+}
+
+function toggleClipY() {
+    clipYEnabled = !clipYEnabled;
+    document.getElementById('yClipSlider').disabled = !clipYEnabled;
+    updateClippingPlanes();
+}
+
+function toggleClipZ() {
+    clipZEnabled = !clipZEnabled;
+    document.getElementById('zClipSlider').disabled = !clipZEnabled;
+    updateClippingPlanes();
+}
+
+function updateClippingPlanes() {
+    const planes = [clippingPlaneX,clippingPlaneY,clippingPlaneZ];
+    // Update renderer's clipping planes
+    renderer.clippingPlanes = planes;
+    renderer.localClippingEnabled = true;
+}
+// Setup scene and renderer (Your existing setup)
+
+const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas.webgl') });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setAnimationLoop(render);
+
+function render() {
+    renderer.render(scene, camera);
+}
+updateClippingPlanes();
 document.addEventListener('DOMContentLoaded', () => {
     // Camera is positioned at the center of the cell bounding box, 1000 units directly above
     camera.position.x = (cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2;
@@ -51,26 +121,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Render everything on the canvas
     const canvas = document.querySelector('canvas.webgl');
-    const renderer = new THREE.WebGLRenderer({
-        canvas: canvas
-    });
-    renderer.setSize(constants.width, constants.height);
-    renderer.setAnimationLoop(render);
+    // const renderer = new THREE.WebGLRenderer({
+    //     canvas: canvas
+    // });
+    // renderer.setSize(constants.width, constants.height);
+    // renderer.setAnimationLoop(render);
     const cameraControls = new OrbitControls(camera, renderer.domElement);
     cameraControls.target.set((cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2, (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2, 0);
     window.addEventListener('click', highlightObjects, false);
+    // // Enable clipping globally
+    // renderer.clippingPlanes = [clippingPlane,clippingPlaneX];
+    // renderer.localClippingEnabled = true;
+
     animate();
 
     // Helper functions for the animation
     function animate() {
         requestAnimationFrame(animate);
+            // Move the clipping plane dynamically along the Y-axis
+        // if (clippingPlane.constant > 2) clippingPlane.constant = -5; 
         render();
     }
-    function render() {
-        var delta = clock.getDelta();
-        cameraControls.update(delta);
-        renderer.render(scene, camera);
-    }
+    // function render() {
+    //     var delta = clock.getDelta();
+    //     cameraControls.update(delta);
+    //     renderer.render(scene, camera);
+    // }
 
     // const sceneData = exporter.parse(scene);
     // console.log(sceneData);
@@ -84,8 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const createBox = (coords, heightPos, layerProperties) => {
     const [start, end] = coords;
-    const geometry = new THREE.BoxGeometry(end[0] - start[0], end[1] - start[1], heightPos[1] - heightPos[0]);
-    const material = new THREE.MeshStandardMaterial({color: layerProperties.color, transparent: true, opacity: layerProperties.opacity, metalness: 0, roughness: 1});
+    const geometry = new RoundedBoxGeometry(end[0] - start[0], end[1] - start[1], heightPos[1] - heightPos[0],10,7);
+    //const geometry = new THREE.BoxGeometry(end[0] - start[0], end[1] - start[1], heightPos[1] - heightPos[0]);
+    const material = new THREE.MeshStandardMaterial({color: layerProperties.color, transparent: true, opacity: layerProperties.opacity, metalness:0, roughness: 1});
     const box = new THREE.Mesh(geometry, material);
     box.position.set(
         (start[0] + end[0]) / 2,
@@ -112,9 +189,9 @@ const createCylinder = (coords, heightPos, layerProperties) => {
 
 const createDiamond = (coords, heightPos, layerProperties) => {
     const [start, end] = coords;
-    const r = 20;
+    const r = (heightPos[1]-heightPos[0])/2;
     const geometry = new THREE.CylinderGeometry(r, r, end[0] - start[0], 4);
-    const material = new THREE.MeshStandardMaterial({color: layerProperties.color, transparent: true, opacity: layerProperties.opacity, metalness: 0, roughness: 1}); 
+    const material = new THREE.MeshStandardMaterial({color: layerProperties.color, transparent: true, opacity: layerProperties.opacity, metalness:0, roughness: 1}); 
     const diamond = new THREE.Mesh(geometry, material);
     diamond.rotation.z = Math.PI / 2;
     diamond.position.set(
@@ -241,3 +318,50 @@ function saveFile(text, filename) {
     link.click();
     URL.revokeObjectURL(link.href);
 }
+// // Existing code ...
+// var flipped=false;
+// // Handle user input for moving the clipping plane
+// document.addEventListener('keydown', (event) => {
+//     const step = 0.5;  // The step value for moving the plane
+//     var miny=-cellData.cellBbox[0][1];//75
+//     var maxy=-cellData.cellBbox[1][1];//-525
+//     var minx=-cellData.cellBbox[0][0];//30
+//     var maxx=-cellData.cellBbox[1][0];//30
+//     if (event.key === 'w') {  // Move the clipping plane up along the Y-axis
+//         clippingPlane.constant -= step;
+//     } else if (event.key === 's') {  // Move the clipping plane down along the Y-axis
+//         clippingPlane.constant += step;
+//     }
+//     else if(event.key==='d'){
+//         clippingPlaneX.constant-=step;
+//     }
+//     else if(event.key==='a'){
+//         clippingPlaneX.constant+=step;
+//     }
+//     // Flip the clipping plane when thebar is pressed
+//     if (event.key === ' ') {  // Spacebar key (flip the clipping plane)
+//         clippingPlane.normal.negate();  // Flip the normal vector
+//         clippingPlaneX.normal.negate();
+//         console.log('Flipped Clipping Plane:', clippingPlane.normal);
+//         flipped=!flipped;
+//     }
+//     console.log(`Min x= ${minx}`);
+//     console.log(`Max x= ${maxx}`);
+//     console.log(clippingPlaneX.constant);
+//     // // Optional: Add limits to prevent it from going too far
+//     if(flipped){
+//         clippingPlane.constant = Math.min(clippingPlane.constant, -maxy); //525
+//         clippingPlane.constant = Math.max(clippingPlane.constant, -miny); //-75 
+//         clippingPlaneX.constant = Math.min(clippingPlaneX.constant,-maxx);
+//         clippingPlaneX.constant=Math.max(clippingPlaneX.constant,-minx);       
+
+//     }
+//     else{
+//         clippingPlane.constant = Math.min(clippingPlane.constant, miny);//75
+//         clippingPlane.constant = Math.max(clippingPlane.constant, maxy);//-525
+//         clippingPlaneX.constant = Math.min(clippingPlaneX.constant,minx);
+//         clippingPlaneX.constant=Math.max(clippingPlaneX.constant,maxx);
+//     }
+// });
+
+// Existing animation loop ...
