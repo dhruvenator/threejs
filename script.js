@@ -39,6 +39,67 @@ gui.add(clippingPlaneX, 'constant', -cellData.cellBbox[1][0]-5 , -cellData.cellB
 gui.add(clippingPlaneY, 'constant', -cellData.cellBbox[1][1]-5 , -cellData.cellBbox[0][1]+5).name('Y Clipping Position').onChange(updateClippingPlanes);
 gui.add(clippingPlaneZ, 'constant', -500, 500).name('Z Clipping Position').onChange(updateClippingPlanes);
 
+let segments=10;
+let rounding=7;
+let nano_num=1;
+const nano_param={
+    Sheets:'1'
+}
+const rounding_param = {
+    Roundness: "7"
+}
+const segment_param={
+    Segments:"10"
+}
+
+gui.add(rounding_param, "Roundness").onChange(function (value) {
+    rounding=value;
+    clearGeometry();
+    addShapes(cellData);
+});
+gui.add(segment_param,"Segments").onChange(function (value) {
+    segments=value;
+    clearGeometry();
+    addShapes(cellData);
+});
+gui.add(nano_param,"Sheets").onChange(function (value) {
+    nano_num=value;
+    //console.log(nano_num);
+    clearGeometry();
+    addShapes(cellData);
+});
+let sheets=[];
+let boxes=[];
+let diamonds=[];
+let cylinders=[];
+let textMeshes=[];
+// Function to clear all existing sheets from the scene
+function clearGeometry() {
+    // Remove all sheets from the scene
+    sheets.forEach(sheet => {
+        scene.remove(sheet);
+    });
+    sheets = []; 
+    boxes.forEach(box => {
+        scene.remove(box);
+    });
+    boxes=[];
+    diamonds.forEach(diamond => {
+        scene.remove(diamond);
+    });
+    diamonds=[];
+    cylinders.forEach(cylinder => {
+        scene.remove(cylinder);
+    });
+    cylinders=[];
+    console.log('Removed Geometries');
+    textMeshes.forEach((textMesh) => {
+        scene.remove(textMesh);
+    });
+    textMeshes.length = 0;  // Clear the array
+    console.log('Removed Text');
+}
+
 // Event listeners for checkbox & slider controls
 document.getElementById('clipX').addEventListener('change', toggleClipX);
 document.getElementById('clipY').addEventListener('change', toggleClipY);
@@ -157,10 +218,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // link.download = 'MUX.png';
     // link.click();
 });
-
-const createBox = (coords, heightPos, layerProperties) => {
+// Function to handle multiple sheets
+const createSheets = (coords, heightPos, layerProperties,numSheets) => {
     const [start, end] = coords;
-    const geometry = new RoundedBoxGeometry(end[0] - start[0], end[1] - start[1], heightPos[1] - heightPos[0],10,7);
+    const distance=1.5*(heightPos[1]-heightPos[0]);
+    // Loop through to create 'numSheets' sheets
+    for (let i = 0; i < numSheets; i++) {
+        // Create the geometry for the sheet
+        const geometry = new RoundedBoxGeometry(end[0] - start[0], end[1] - start[1], heightPos[1] - heightPos[0], segments, rounding);
+        // Material settings
+        const material = new THREE.MeshStandardMaterial({color: layerProperties.color, transparent: true, opacity: layerProperties.opacity, metalness:0, roughness: 1});
+        // Create the mesh and set the position of the sheet
+        const nano = new THREE.Mesh(geometry, material);
+        nano.position.set(
+            (start[0] + end[0]) / 2,
+            (start[1] + end[1]) / 2,
+            (heightPos[0] + heightPos[1]) / 2 + (i*distance)
+        );
+        
+        // Add to the scene and store the object in the array for future manipulation
+        scene.add(nano);
+        sheets.push(nano);
+    }
+};
+
+
+const createBox = (coords, heightPos, layerProperties,numSegments,numRounding) => {
+    const [start, end] = coords;
+    const geometry = new RoundedBoxGeometry(end[0] - start[0], end[1] - start[1], heightPos[1] - heightPos[0],numSegments,numRounding);
     //const geometry = new THREE.BoxGeometry(end[0] - start[0], end[1] - start[1], heightPos[1] - heightPos[0]);
     const material = new THREE.MeshStandardMaterial({color: layerProperties.color, transparent: true, opacity: layerProperties.opacity, metalness:0, roughness: 1});
     const box = new THREE.Mesh(geometry, material);
@@ -170,6 +255,7 @@ const createBox = (coords, heightPos, layerProperties) => {
         (heightPos[0] + heightPos[1]) / 2
     );
     scene.add(box);
+    boxes.push(box);
 };
 
 const createCylinder = (coords, heightPos, layerProperties) => {
@@ -185,6 +271,7 @@ const createCylinder = (coords, heightPos, layerProperties) => {
         (heightPos[0] + heightPos[1]) / 2
     );
     scene.add(cylinder);
+    cylinders.push(cylinder);
 };
 
 const createDiamond = (coords, heightPos, layerProperties) => {
@@ -200,6 +287,7 @@ const createDiamond = (coords, heightPos, layerProperties) => {
         (heightPos[0] + heightPos[1]) / 2
     );
     scene.add(diamond);
+    diamonds.push(diamond);
 };
 
 const createText = (textData, heightOffset) => {
@@ -215,10 +303,14 @@ const createText = (textData, heightOffset) => {
         const textMesh = new THREE.Mesh(textGeometry, textMaterial);
         textMesh.position.set(x, y, heightOffset);
         scene.add(textMesh);
+        textMeshes.push(textMesh);
     });
 };
 
 const addShapes = (cellData) => {
+    let numSheets=nano_num;
+    let numSegments=segments;
+    let numRounding=rounding;
     const layers = cellData.layers;
     for (let layerKey in layers) {
         const layer = layers[layerKey];
@@ -234,7 +326,7 @@ const addShapes = (cellData) => {
             }
             else if (layerProps.shape === 'box') {
                 layer.data.forEach(coords => {
-                    createBox(coords, heightPos, layerProps);
+                    createBox(coords, heightPos, layerProps,numSegments,numRounding);
                 });
             }
             else if (layerProps.shape === 'diamond') {
@@ -245,6 +337,11 @@ const addShapes = (cellData) => {
             else if (layerProps.shape === 'cylinder') {
                 layer.data.forEach(coords => {
                     createCylinder(coords, heightPos, layerProps);
+                });
+            }
+            else if(layerProps.shape==='nanosheet'){
+                layer.data.forEach(coords=>{
+                    createSheets(coords,heightPos,layerProps,numSheets);
                 });
             }
         } else {
