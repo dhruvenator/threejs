@@ -35,7 +35,7 @@ const clippingPlaneX = new THREE.Plane(new THREE.Vector3(1, 0, 0), -cellData.cel
 // Create clipping planes
 const clippingPlaneY = new THREE.Plane(new THREE.Vector3(0, 1, 0), -cellData.cellBbox[0][1]+5);  // Y-axis clipping
 const clippingPlaneZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 500);  // Z-axis clipping
-const gui=new GUI();
+const gui=new dat.GUI();
 gui.add(clippingPlaneX, 'constant', -cellData.cellBbox[1][0]-5 , -cellData.cellBbox[0][0]+5).name('X Clipping Position').onChange(updateClippingPlanes);
 gui.add(clippingPlaneY, 'constant', -cellData.cellBbox[1][1]-5 , -cellData.cellBbox[0][1]+5).name('Y Clipping Position').onChange(updateClippingPlanes);
 gui.add(clippingPlaneZ, 'constant', -500, 500).name('Z Clipping Position').onChange(updateClippingPlanes);
@@ -100,35 +100,6 @@ function clearGeometry() {
     textMeshes.length = 0;  // Clear the array
     console.log('Removed Text');
 }
-
-let segments = 10;
-let rounding = 7;
-let nano_num = 1;
-const nano_param = {
-    Sheets: '1'
-}
-const rounding_param = {
-    Roundness: "7"
-}
-const segment_param = {
-    Segments: "10"
-}
-
-gui.add(rounding_param, "Roundness").onChange(function (value) {
-    rounding = value;
-    clearGeometry();
-    addShapes(cellData);
-});
-gui.add(segment_param, "Segments").onChange(function (value) {
-    segments = value;
-    clearGeometry();
-    addShapes(cellData);
-});
-gui.add(nano_param, "Sheets").onChange(function (value) {
-    nano_num = value;
-    clearGeometry();
-    addShapes(cellData);
-});
 const f1 = gui.addFolder('Layers');
 const f2 = gui.addFolder('Conducting Paths');
 const layerDictionary = {};
@@ -139,37 +110,6 @@ function addValueToLayer(layerNumber, value) {
         layerDictionary[layerNumber] = []; // Initialize the layer's array if it doesn't exist
     }
     layerDictionary[layerNumber].push(value);
-}
-let sheets = [];
-let boxes = [];
-let diamonds = [];
-let cylinders = [];
-let textMeshes = [];
-// Function to clear all existing sheets from the scene
-function clearGeometry() {
-    // Remove all sheets from the scene
-    sheets.forEach(sheet => {
-        scene.remove(sheet);
-    });
-    sheets = [];
-    boxes.forEach(box => {
-        scene.remove(box);
-    });
-    boxes = [];
-    diamonds.forEach(diamond => {
-        scene.remove(diamond);
-    });
-    diamonds = [];
-    cylinders.forEach(cylinder => {
-        scene.remove(cylinder);
-    });
-    cylinders = [];
-    console.log('Removed Geometries');
-    textMeshes.forEach((textMesh) => {
-        scene.remove(textMesh);
-    });
-    textMeshes.length = 0;  // Clear the array
-    console.log('Removed Text');
 }
 
 function updateClippingPlanes() {
