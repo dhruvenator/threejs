@@ -3,10 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My three.js (local)</title>
+    <title>My three.js</title>
 </head>
 <body>
     <canvas class="webgl"></canvas>
-    <script type="module" src="./script.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+            }
+        }
+    </script>      
+    <script type="module" src="script.js"></script>
+    <div id="gui">
+        <label>
+            <input type="checkbox" id="clipX" /> Enable X Clipping
+        </label>
+        <input type="range" id="xClipSlider" min="-500" max="500" step="0.1" value="0" disabled />
+        
+        <label>
+            <input type="checkbox" id="clipY" /> Enable Y Clipping
+        </label>
+        <input type="range" id="yClipSlider" min="-500" max="500" step="0.1" value="0" disabled />
+        
+        <label>
+            <input type="checkbox" id="clipZ" /> Enable Z Clipping
+        </label>
+        <input type="range" id="zClipSlider" min="-500" max="500" step="0.1" value="0" disabled />
+    </div>
+    
 </body>
 </html>
