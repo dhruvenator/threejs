@@ -35,6 +35,7 @@ let renderer = new THREE.WebGLRenderer();
 const clippingPlaneX = new THREE.Plane(new THREE.Vector3(1, 0, 0), -cellData.cellBbox[0][0] + 5);
 const clippingPlaneY = new THREE.Plane(new THREE.Vector3(0, 1, 0), -cellData.cellBbox[0][1] + 5);
 const clippingPlaneZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 500);
+const clippingPlanes = [clippingPlaneX, clippingPlaneY, clippingPlaneZ];
 gui.add(clippingPlaneX, 'constant', -cellData.cellBbox[1][0] - 5, -cellData.cellBbox[0][0] + 5).name('X Clipping Position').onChange(updateClippingPlanes);
 gui.add(clippingPlaneY, 'constant', -cellData.cellBbox[1][1] - 5, -cellData.cellBbox[0][1] + 5).name('Y Clipping Position').onChange(updateClippingPlanes);
 gui.add(clippingPlaneZ, 'constant', -500, 500).name('Z Clipping Position').onChange(updateClippingPlanes);
@@ -45,6 +46,8 @@ let boxes = [];
 let diamonds = [];
 let cylinders = [];
 let textMeshes = [];
+let z_start = 0;
+let z_end = 0;
 
 // GUI parameters
 const nanoSheetsParam = {
@@ -67,12 +70,23 @@ const layerFolder = gui.addFolder('Layers');
 const conductingFolder = gui.addFolder('Conducting Paths');
 const layerDictionary = {};
 
+// Get z-axis start and end position
+Object.keys(layerProperties).forEach(key => {
+    let obj = layerProperties[key];
+    z_start = Math.min(z_start, obj.offset);
+    z_end = Math.max(z_start, obj.offset + obj.height);
+});
+console.log()
+
 document.addEventListener('DOMContentLoaded', () => {
     // Camera is positioned at the center of the cell bounding box, 1000 units directly above
     camera.position.x = (cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2;
-    camera.position.y = (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2; // -450
+    camera.position.y = (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2;
     camera.position.z = 1000;
     scene.add(camera);
+
+    // Change background color
+    scene.background = new THREE.Color( constants.greyColor );
 
     // Lighting at the camera's position and behind the object
     scene.add(ambientLight);
@@ -90,16 +104,25 @@ document.addEventListener('DOMContentLoaded', () => {
     populateGUILayers();
     
     // Render everything on the canvas
-    renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas.webgl') });
+    renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas.webgl'), antialias: true, stencil: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     updateClippingPlanes();
 
     const cameraControls = new OrbitControls(camera, renderer.domElement);
-    cameraControls.target.set((cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2, (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2, 0);
+    cameraControls.target.set((cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2, (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2, (z_start + z_end) / 2);
+    cameraControls.enablePan = false;
+    cameraControls.enableDamping = true;
     window.addEventListener('click', highlightObjects, false);
 
     animate();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        cameraControls.update();
+        renderer.render(scene, camera);
+    }
+    
 });
 
 //Function to add layer names to the GUI layers folder
@@ -127,16 +150,11 @@ function addValueToLayer(layerNumber, value) {
 }
 
 function updateClippingPlanes() {
-    const planes = [clippingPlaneX, clippingPlaneY, clippingPlaneZ];
-    renderer.clippingPlanes = planes;
+    renderer.clippingPlanes = clippingPlanes;
     renderer.localClippingEnabled = true;
 }
 
 // Helper functions for the animation
-function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-}
 
 // Function to remove all objects from the scene
 function clearGeometry() {
@@ -167,7 +185,7 @@ function clearGeometry() {
 const createSheets = (coords, heightPos, layerProperties, numSheets) => {
     const [start, end] = coords;
     const distance = 1.5 * (heightPos[1] - heightPos[0]);
-    const nanoOffset = 0; // TODO: Change this to center nanosheets
+    const nanoOffset = (heightPos[1] - heightPos[0]) ;
     // Loop through to create 'numSheets' sheets
     for (let i = 0; i < numSheets; i++) {
         // Create the geometry for the sheet
