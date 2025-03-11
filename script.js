@@ -1,23 +1,28 @@
-import * as THREE from 'three';
+import * as THREE from 'https://unpkg.com/three@0.162.0/build/three.module.js';
 import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js";
 import { FontLoader } from 'https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/geometries/TextGeometry.js';
 import dat from "https://cdn.skypack.dev/dat.gui";
 import { RoundedBoxGeometry } from 'https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/Addons.js';
-import { MUXNEW, layerProperties } from './data.js';
+// import { MUXNEW, layerProperties } from './data.js';
+import INVD4NEW from '/Users/dhruvix/Documents/threejs/3DINVD4_1_RT_6_1.json' assert { type: 'json' };
+
+const layerProperties = INVD4NEW.layerProperties;
+const layerMap = INVD4NEW.layers;
+const polygons = INVD4NEW.polygons;
+const cellBbox = polygons[layerMap["10000/0"][0]].position;
 
 // Defining constants that will be used throughout the script
 const constants = {
     width: window.innerWidth,
     height: window.innerHeight,
     offsetScale: 1,
-    greyColor: 0xDEDEDE,
+    greyColor: "#DEDEDE",
     highlightOpacity: 1,
     segments: 10,
     rounding: 7,
     nanoNum: 1
 };
-const cellData = MUXNEW;
 
 // Initializing certain neccessary items
 const scene = new THREE.Scene();
@@ -29,16 +34,7 @@ const frontLight = new THREE.DirectionalLight(0xffffff, 1);
 const backLight = new THREE.DirectionalLight(0xffffff, 1);
 const lightTargetObject = new THREE.Object3D();
 const gui = new dat.GUI();
-let renderer = new THREE.WebGLRenderer();
-
-// Clipping planes for the renderer
-const clippingPlaneX = new THREE.Plane(new THREE.Vector3(1, 0, 0), -cellData.cellBbox[0][0] + 5);
-const clippingPlaneY = new THREE.Plane(new THREE.Vector3(0, 1, 0), -cellData.cellBbox[0][1] + 5);
-const clippingPlaneZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 500);
-const clippingPlanes = [clippingPlaneX, clippingPlaneY, clippingPlaneZ];
-gui.add(clippingPlaneX, 'constant', -cellData.cellBbox[1][0] - 5, -cellData.cellBbox[0][0] + 5).name('X Clipping Position').onChange(updateClippingPlanes);
-gui.add(clippingPlaneY, 'constant', -cellData.cellBbox[1][1] - 5, -cellData.cellBbox[0][1] + 5).name('Y Clipping Position').onChange(updateClippingPlanes);
-gui.add(clippingPlaneZ, 'constant', -500, 500).name('Z Clipping Position').onChange(updateClippingPlanes);
+let renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true, localClippingEnabled: true });
 
 // Arrays to store the objects created in the scene
 let sheets = [];
@@ -48,6 +44,13 @@ let cylinders = [];
 let textMeshes = [];
 let z_start = 0;
 let z_end = 0;
+
+// Get z-axis start and end position
+Object.keys(layerProperties).forEach(key => {
+    let obj = layerProperties[key];
+    z_start = Math.min(z_start, obj.offset);
+    z_end = Math.max(z_start, obj.offset + obj.height);
+});
 
 // GUI parameters
 const nanoSheetsParam = {
@@ -59,30 +62,31 @@ const roundingParam = {
 gui.add(roundingParam, "Roundness").onChange(value => {
     constants.rounding = value;
     clearGeometry();
-    addShapes(cellData);
+    addShapes();
 });
 gui.add(nanoSheetsParam,"Sheets").onChange(value => {
     constants.nanoNum = value;
     clearGeometry();
-    addShapes(cellData);
+    addShapes();
 });
 const layerFolder = gui.addFolder('Layers');
 const conductingFolder = gui.addFolder('Conducting Paths');
 const layerDictionary = {};
 
-// Get z-axis start and end position
-Object.keys(layerProperties).forEach(key => {
-    let obj = layerProperties[key];
-    z_start = Math.min(z_start, obj.offset);
-    z_end = Math.max(z_start, obj.offset + obj.height);
-});
-console.log()
+// Clipping planes for the renderer
+const clippingPlaneX = new THREE.Plane(new THREE.Vector3(1, 0, 0), -cellBbox[0][0] + 5);
+const clippingPlaneY = new THREE.Plane(new THREE.Vector3(0, 1, 0), -cellBbox[0][1] + 5);
+const clippingPlaneZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), -z_start);
+const clippingPlanes = [clippingPlaneX, clippingPlaneY, clippingPlaneZ];
+gui.add(clippingPlaneX, 'constant', -cellBbox[1][0] - 5, -cellBbox[0][0] + 5).name('X Clipping Position').onChange(updateClippingPlanes);
+gui.add(clippingPlaneY, 'constant', -cellBbox[1][1] - 5, -cellBbox[0][1] + 5).name('Y Clipping Position').onChange(updateClippingPlanes);
+gui.add(clippingPlaneZ, 'constant', -z_end, -z_start).name('Z Clipping Position').onChange(updateClippingPlanes);
 
 document.addEventListener('DOMContentLoaded', () => {
     // Camera is positioned at the center of the cell bounding box, 1000 units directly above
-    camera.position.x = (cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2;
-    camera.position.y = (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2;
-    camera.position.z = 1000;
+    camera.position.x = (cellBbox[0][0] + cellBbox[1][0]) / 2;
+    camera.position.y = (cellBbox[0][1] + cellBbox[1][1]) / 2;
+    camera.position.z = z_end + 500;
     scene.add(camera);
 
     // Change background color
@@ -100,17 +104,17 @@ document.addEventListener('DOMContentLoaded', () => {
     scene.add(backLight);
 
     // Add the shapes that we create from each layer to the scene
-    addShapes(cellData);
+    addShapes();
     populateGUILayers();
     
     // Render everything on the canvas
-    renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas.webgl'), antialias: true, stencil: true });
+    renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas.webgl'), antialias: true, logarithmicDepthBuffer: true, localClippingEnabled: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     updateClippingPlanes();
 
     const cameraControls = new OrbitControls(camera, renderer.domElement);
-    cameraControls.target.set((cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2, (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2, (z_start + z_end) / 2);
+    cameraControls.target.set((cellBbox[0][0] + cellBbox[1][0]) / 2, (cellBbox[0][1] + cellBbox[1][1]) / 2, (z_start + z_end) / 2);
     cameraControls.enablePan = false;
     cameraControls.enableDamping = true;
     window.addEventListener('click', highlightObjects, false);
@@ -253,9 +257,9 @@ const createDiamond = (coords, heightPos, layerProperties) => {
     diamonds.push(diamond);
 };
 
-const createText = (textData, heightOffset) => {
+const createText = (text, textPos, heightOffset) => {
     const loader = new FontLoader();
-    const [text, x, y] = textData;
+    const [x, y] = textPos;
     loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
         const textGeometry = new TextGeometry(text, {
             font: font,
@@ -270,45 +274,42 @@ const createText = (textData, heightOffset) => {
     });
 };
 
-const addShapes = (cellData) => {
+const addShapes = () => {
     let numSheets = constants.nanoNum;
     let numRounding = constants.rounding;
-    const layers = cellData.layers;
-    for (let layerKey in layers) {
-        const layer = layers[layerKey];
-        if (layer.layerNumber in layerProperties) {
-            const layerProps = layerProperties[layer.layerNumber]
-            let offsetStart = constants.offsetScale * layerProps.offset;
-            let offsetEnd = constants.offsetScale * (layerProps.offset + layerProps.height);
-            const heightPos = [offsetStart, offsetEnd];
-            if (layer.layerDT === 1) {
-                layer.data.forEach(textData => {
-                    createText(textData, offsetEnd);
-                });
+    for (let layerKey in layerMap) {
+        let layerPolygons = layerMap[layerKey];
+        layerPolygons.forEach(polygonId => {
+            let polygon = polygons[polygonId];
+            if (polygon.layerNumber in layerProperties) {
+                const layerProps = layerProperties[polygon.layerNumber];
+                let offsetStart = constants.offsetScale * layerProps.offset;
+                let offsetEnd = constants.offsetScale * (layerProps.offset + layerProps.height);
+                const heightPos = [offsetStart, offsetEnd];
+                if (layerProps.shape === 'box') {
+                    createBox(polygon.position, heightPos, layerProps, numRounding);
+                }
+                else if (layerProps.shape === 'diamond') {
+                    createDiamond(polygon.position, heightPos, layerProps);
+                }
+                else if (layerProps.shape === 'cylinder') {
+                    createCylinder(polygon.position, heightPos, layerProps);
+                }
+                else if (layerProps.shape === 'nanosheet') {
+                    createSheets(polygon.position, heightPos, layerProps, numSheets);
+                }
             }
-            else if (layerProps.shape === 'box') {
-                layer.data.forEach(coords => {
-                    createBox(coords, heightPos, layerProps, numRounding);
-                });
+            else if (polygon.type === "text"){
+                if (polygon.layerNumber.replace(/\/\d+$/, "/0") in layerProperties) {
+                    const layerProps = layerProperties[polygon.layerNumber.replace(/\/\d+$/, "/0")];
+                    let offsetEnd = constants.offsetScale * (layerProps.offset + layerProps.height);
+                    createText(polygon.string, polygon.position, offsetEnd);
+                }
+            } 
+            else {
+                console.log(`Layer ${polygon.layerNumber} is ignored`);
             }
-            else if (layerProps.shape === 'diamond') {
-                layer.data.forEach(coords => {
-                    createDiamond(coords, heightPos, layerProps);
-                });
-            }
-            else if (layerProps.shape === 'cylinder') {
-                layer.data.forEach(coords => {
-                    createCylinder(coords, heightPos, layerProps);
-                });
-            }
-            else if (layerProps.shape === 'nanosheet') {
-                layer.data.forEach(coords => {
-                    createSheets(coords, heightPos, layerProps, numSheets);
-                });
-            }
-        } else {
-            console.log(`Layer ${layer.layerNumber} is ignored`);
-        }
+        });
     }
 };
 
@@ -322,7 +323,6 @@ function getObjectsTouchingBFS(selectedObject, maxLevel = 2) {
     while (objectQ.length > 0 && level < maxLevel) {
         [currObj, level] = objectQ.shift();
         const selectedBox = new THREE.Box3().setFromObject(currObj);
-        console.log(currObj, level);
         // Iterate through all objects in the scene
         scene.children.forEach(obj => {
             if (!checkedObjects.has(obj) && obj.isMesh) {

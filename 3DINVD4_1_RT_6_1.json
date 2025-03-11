@@ -1,0 +1,1631 @@
+{
+    "cell": "INVD4_1_RT_6_1",
+    "polygons": {
+        "0": {
+            "layerNumber": "100/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -267
+                ],
+                [
+                    900,
+                    -183
+                ]
+            ]
+        },
+        "1": {
+            "layerNumber": "103/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -267
+                ],
+                [
+                    900,
+                    -183
+                ]
+            ]
+        },
+        "2": {
+            "layerNumber": "101/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -267
+                ],
+                [
+                    150,
+                    -183
+                ]
+            ]
+        },
+        "3": {
+            "layerNumber": "101/0",
+            "type": "boundary",
+            "position": [
+                [
+                    210,
+                    -267
+                ],
+                [
+                    330,
+                    -183
+                ]
+            ]
+        },
+        "4": {
+            "layerNumber": "101/0",
+            "type": "boundary",
+            "position": [
+                [
+                    390,
+                    -267
+                ],
+                [
+                    510,
+                    -183
+                ]
+            ]
+        },
+        "5": {
+            "layerNumber": "101/0",
+            "type": "boundary",
+            "position": [
+                [
+                    570,
+                    -267
+                ],
+                [
+                    690,
+                    -183
+                ]
+            ]
+        },
+        "6": {
+            "layerNumber": "101/0",
+            "type": "boundary",
+            "position": [
+                [
+                    750,
+                    -267
+                ],
+                [
+                    900,
+                    -183
+                ]
+            ]
+        },
+        "7": {
+            "layerNumber": "104/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -267
+                ],
+                [
+                    150,
+                    -183
+                ]
+            ]
+        },
+        "8": {
+            "layerNumber": "104/0",
+            "type": "boundary",
+            "position": [
+                [
+                    210,
+                    -267
+                ],
+                [
+                    330,
+                    -183
+                ]
+            ]
+        },
+        "9": {
+            "layerNumber": "104/0",
+            "type": "boundary",
+            "position": [
+                [
+                    390,
+                    -267
+                ],
+                [
+                    510,
+                    -183
+                ]
+            ]
+        },
+        "10": {
+            "layerNumber": "104/0",
+            "type": "boundary",
+            "position": [
+                [
+                    570,
+                    -267
+                ],
+                [
+                    690,
+                    -183
+                ]
+            ]
+        },
+        "11": {
+            "layerNumber": "104/0",
+            "type": "boundary",
+            "position": [
+                [
+                    750,
+                    -267
+                ],
+                [
+                    900,
+                    -183
+                ]
+            ]
+        },
+        "12": {
+            "layerNumber": "305/0",
+            "type": "boundary",
+            "position": [
+                [
+                    150,
+                    -519
+                ],
+                [
+                    210,
+                    -123
+                ]
+            ]
+        },
+        "13": {
+            "layerNumber": "305/0",
+            "type": "boundary",
+            "position": [
+                [
+                    330,
+                    -519
+                ],
+                [
+                    390,
+                    -123
+                ]
+            ]
+        },
+        "14": {
+            "layerNumber": "305/0",
+            "type": "boundary",
+            "position": [
+                [
+                    510,
+                    -519
+                ],
+                [
+                    570,
+                    -123
+                ]
+            ]
+        },
+        "15": {
+            "layerNumber": "305/0",
+            "type": "boundary",
+            "position": [
+                [
+                    690,
+                    -519
+                ],
+                [
+                    750,
+                    -123
+                ]
+            ]
+        },
+        "16": {
+            "layerNumber": "307/0",
+            "type": "boundary",
+            "position": [
+                [
+                    150,
+                    -519
+                ],
+                [
+                    210,
+                    -123
+                ]
+            ]
+        },
+        "17": {
+            "layerNumber": "307/0",
+            "type": "boundary",
+            "position": [
+                [
+                    330,
+                    -519
+                ],
+                [
+                    390,
+                    -123
+                ]
+            ]
+        },
+        "18": {
+            "layerNumber": "307/0",
+            "type": "boundary",
+            "position": [
+                [
+                    510,
+                    -519
+                ],
+                [
+                    570,
+                    -123
+                ]
+            ]
+        },
+        "19": {
+            "layerNumber": "307/0",
+            "type": "boundary",
+            "position": [
+                [
+                    690,
+                    -519
+                ],
+                [
+                    750,
+                    -123
+                ]
+            ]
+        },
+        "20": {
+            "layerNumber": "310/0",
+            "type": "boundary",
+            "position": [
+                [
+                    -30,
+                    -525
+                ],
+                [
+                    30,
+                    75
+                ]
+            ]
+        },
+        "21": {
+            "layerNumber": "310/0",
+            "type": "boundary",
+            "position": [
+                [
+                    870,
+                    -525
+                ],
+                [
+                    930,
+                    75
+                ]
+            ]
+        },
+        "22": {
+            "layerNumber": "400/0",
+            "type": "boundary",
+            "position": [
+                [
+                    54,
+                    -267
+                ],
+                [
+                    126,
+                    26
+                ]
+            ]
+        },
+        "23": {
+            "layerNumber": "400/3",
+            "type": "boundary",
+            "position": [
+                [
+                    234,
+                    -64
+                ],
+                [
+                    306,
+                    64
+                ]
+            ]
+        },
+        "24": {
+            "layerNumber": "400/0",
+            "type": "boundary",
+            "position": [
+                [
+                    234,
+                    -514
+                ],
+                [
+                    306,
+                    -183
+                ]
+            ]
+        },
+        "25": {
+            "layerNumber": "400/0",
+            "type": "boundary",
+            "position": [
+                [
+                    414,
+                    -267
+                ],
+                [
+                    486,
+                    26
+                ]
+            ]
+        },
+        "26": {
+            "layerNumber": "400/3",
+            "type": "boundary",
+            "position": [
+                [
+                    594,
+                    -64
+                ],
+                [
+                    666,
+                    64
+                ]
+            ]
+        },
+        "27": {
+            "layerNumber": "400/0",
+            "type": "boundary",
+            "position": [
+                [
+                    594,
+                    -514
+                ],
+                [
+                    666,
+                    -183
+                ]
+            ]
+        },
+        "28": {
+            "layerNumber": "400/0",
+            "type": "boundary",
+            "position": [
+                [
+                    774,
+                    -267
+                ],
+                [
+                    846,
+                    26
+                ]
+            ]
+        },
+        "29": {
+            "layerNumber": "402/0",
+            "type": "boundary",
+            "position": [
+                [
+                    54,
+                    -419
+                ],
+                [
+                    126,
+                    26
+                ]
+            ]
+        },
+        "30": {
+            "layerNumber": "402/0",
+            "type": "boundary",
+            "position": [
+                [
+                    234,
+                    -267
+                ],
+                [
+                    306,
+                    64
+                ]
+            ]
+        },
+        "31": {
+            "layerNumber": "402/0",
+            "type": "boundary",
+            "position": [
+                [
+                    414,
+                    -419
+                ],
+                [
+                    486,
+                    26
+                ]
+            ]
+        },
+        "32": {
+            "layerNumber": "402/0",
+            "type": "boundary",
+            "position": [
+                [
+                    594,
+                    -267
+                ],
+                [
+                    666,
+                    64
+                ]
+            ]
+        },
+        "33": {
+            "layerNumber": "402/0",
+            "type": "boundary",
+            "position": [
+                [
+                    774,
+                    -419
+                ],
+                [
+                    846,
+                    26
+                ]
+            ]
+        },
+        "34": {
+            "layerNumber": "404/0",
+            "type": "boundary",
+            "position": [
+                [
+                    234,
+                    -64
+                ],
+                [
+                    306,
+                    64
+                ]
+            ]
+        },
+        "35": {
+            "layerNumber": "404/0",
+            "type": "boundary",
+            "position": [
+                [
+                    234,
+                    -514
+                ],
+                [
+                    306,
+                    -386
+                ]
+            ]
+        },
+        "36": {
+            "layerNumber": "404/0",
+            "type": "boundary",
+            "position": [
+                [
+                    594,
+                    -64
+                ],
+                [
+                    666,
+                    64
+                ]
+            ]
+        },
+        "37": {
+            "layerNumber": "404/0",
+            "type": "boundary",
+            "position": [
+                [
+                    594,
+                    -514
+                ],
+                [
+                    666,
+                    -386
+                ]
+            ]
+        },
+        "38": {
+            "layerNumber": "600/0",
+            "type": "boundary",
+            "position": [
+                [
+                    54,
+                    -66
+                ],
+                [
+                    126,
+                    16
+                ]
+            ]
+        },
+        "39": {
+            "layerNumber": "600/0",
+            "type": "boundary",
+            "position": [
+                [
+                    414,
+                    -66
+                ],
+                [
+                    486,
+                    16
+                ]
+            ]
+        },
+        "40": {
+            "layerNumber": "600/0",
+            "type": "boundary",
+            "position": [
+                [
+                    774,
+                    -66
+                ],
+                [
+                    846,
+                    16
+                ]
+            ]
+        },
+        "41": {
+            "layerNumber": "601/0",
+            "type": "boundary",
+            "position": [
+                [
+                    234,
+                    -64
+                ],
+                [
+                    306,
+                    64
+                ]
+            ]
+        },
+        "42": {
+            "layerNumber": "601/0",
+            "type": "boundary",
+            "position": [
+                [
+                    594,
+                    -64
+                ],
+                [
+                    666,
+                    64
+                ]
+            ]
+        },
+        "43": {
+            "layerNumber": "700/0",
+            "type": "boundary",
+            "position": [
+                [
+                    44,
+                    -409
+                ],
+                [
+                    136,
+                    -341
+                ]
+            ]
+        },
+        "44": {
+            "layerNumber": "700/0",
+            "type": "boundary",
+            "position": [
+                [
+                    404,
+                    -409
+                ],
+                [
+                    496,
+                    -341
+                ]
+            ]
+        },
+        "45": {
+            "layerNumber": "700/0",
+            "type": "boundary",
+            "position": [
+                [
+                    764,
+                    -409
+                ],
+                [
+                    856,
+                    -341
+                ]
+            ]
+        },
+        "46": {
+            "layerNumber": "701/0",
+            "type": "boundary",
+            "position": [
+                [
+                    140,
+                    -509
+                ],
+                [
+                    220,
+                    -441
+                ]
+            ]
+        },
+        "47": {
+            "layerNumber": "701/0",
+            "type": "boundary",
+            "position": [
+                [
+                    320,
+                    -509
+                ],
+                [
+                    400,
+                    -441
+                ]
+            ]
+        },
+        "48": {
+            "layerNumber": "701/0",
+            "type": "boundary",
+            "position": [
+                [
+                    500,
+                    -509
+                ],
+                [
+                    580,
+                    -441
+                ]
+            ]
+        },
+        "49": {
+            "layerNumber": "701/0",
+            "type": "boundary",
+            "position": [
+                [
+                    680,
+                    -509
+                ],
+                [
+                    760,
+                    -441
+                ]
+            ]
+        },
+        "50": {
+            "layerNumber": "800/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -525
+                ],
+                [
+                    900,
+                    -375
+                ]
+            ]
+        },
+        "51": {
+            "layerNumber": "800/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -75
+                ],
+                [
+                    900,
+                    75
+                ]
+            ]
+        },
+        "52": {
+            "layerNumber": "800/1",
+            "type": "text",
+            "string": "VSS",
+            "position": [
+                450,
+                -450
+            ]
+        },
+        "53": {
+            "layerNumber": "800/1",
+            "type": "text",
+            "string": "VDD",
+            "position": [
+                450,
+                0
+            ]
+        },
+        "54": {
+            "layerNumber": "1000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    140,
+                    -499
+                ],
+                [
+                    760,
+                    -451
+                ]
+            ]
+        },
+        "55": {
+            "layerNumber": "1000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    44,
+                    -399
+                ],
+                [
+                    856,
+                    -351
+                ]
+            ]
+        },
+        "56": {
+            "layerNumber": "1000/1",
+            "type": "text",
+            "string": "OUT",
+            "position": [
+                450,
+                -375
+            ]
+        },
+        "57": {
+            "layerNumber": "1000/1",
+            "type": "text",
+            "string": "IN",
+            "position": [
+                450,
+                -475
+            ]
+        },
+        "58": {
+            "layerNumber": "2000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -500
+                ],
+                [
+                    900,
+                    -450
+                ]
+            ]
+        },
+        "59": {
+            "layerNumber": "2000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -400
+                ],
+                [
+                    900,
+                    -350
+                ]
+            ]
+        },
+        "60": {
+            "layerNumber": "2000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -300
+                ],
+                [
+                    900,
+                    -250
+                ]
+            ]
+        },
+        "61": {
+            "layerNumber": "2000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -200
+                ],
+                [
+                    900,
+                    -150
+                ]
+            ]
+        },
+        "62": {
+            "layerNumber": "2000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -100
+                ],
+                [
+                    900,
+                    -50
+                ]
+            ]
+        },
+        "63": {
+            "layerNumber": "2000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    0
+                ],
+                [
+                    900,
+                    50
+                ]
+            ]
+        },
+        "64": {
+            "layerNumber": "10000/0",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -525
+                ],
+                [
+                    900,
+                    75
+                ]
+            ]
+        },
+        "65": {
+            "layerNumber": "100/1",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -267
+                ],
+                [
+                    900,
+                    -183
+                ]
+            ]
+        },
+        "66": {
+            "layerNumber": "103/1",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -267
+                ],
+                [
+                    900,
+                    -183
+                ]
+            ]
+        },
+        "67": {
+            "layerNumber": "800/2",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -525
+                ],
+                [
+                    900,
+                    -375
+                ]
+            ]
+        },
+        "68": {
+            "layerNumber": "800/2",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -75
+                ],
+                [
+                    900,
+                    75
+                ]
+            ]
+        },
+        "69": {
+            "layerNumber": "800/3",
+            "type": "text",
+            "string": "VSS",
+            "position": [
+                450,
+                -450
+            ]
+        },
+        "70": {
+            "layerNumber": "800/3",
+            "type": "text",
+            "string": "VDD",
+            "position": [
+                450,
+                0
+            ]
+        },
+        "71": {
+            "layerNumber": "305/1",
+            "type": "boundary",
+            "position": [
+                [
+                    150,
+                    -525
+                ],
+                [
+                    210,
+                    75
+                ]
+            ]
+        },
+        "72": {
+            "layerNumber": "305/1",
+            "type": "boundary",
+            "position": [
+                [
+                    330,
+                    -525
+                ],
+                [
+                    390,
+                    75
+                ]
+            ]
+        },
+        "73": {
+            "layerNumber": "305/1",
+            "type": "boundary",
+            "position": [
+                [
+                    510,
+                    -525
+                ],
+                [
+                    570,
+                    75
+                ]
+            ]
+        },
+        "74": {
+            "layerNumber": "305/1",
+            "type": "boundary",
+            "position": [
+                [
+                    690,
+                    -525
+                ],
+                [
+                    750,
+                    75
+                ]
+            ]
+        },
+        "75": {
+            "layerNumber": "307/1",
+            "type": "boundary",
+            "position": [
+                [
+                    150,
+                    -525
+                ],
+                [
+                    210,
+                    75
+                ]
+            ]
+        },
+        "76": {
+            "layerNumber": "307/1",
+            "type": "boundary",
+            "position": [
+                [
+                    330,
+                    -525
+                ],
+                [
+                    390,
+                    75
+                ]
+            ]
+        },
+        "77": {
+            "layerNumber": "307/1",
+            "type": "boundary",
+            "position": [
+                [
+                    510,
+                    -525
+                ],
+                [
+                    570,
+                    75
+                ]
+            ]
+        },
+        "78": {
+            "layerNumber": "307/1",
+            "type": "boundary",
+            "position": [
+                [
+                    690,
+                    -525
+                ],
+                [
+                    750,
+                    75
+                ]
+            ]
+        },
+        "79": {
+            "layerNumber": "305/1",
+            "type": "boundary",
+            "position": [
+                [
+                    -30,
+                    -525
+                ],
+                [
+                    30,
+                    75
+                ]
+            ]
+        },
+        "80": {
+            "layerNumber": "305/1",
+            "type": "boundary",
+            "position": [
+                [
+                    870,
+                    -525
+                ],
+                [
+                    930,
+                    75
+                ]
+            ]
+        },
+        "81": {
+            "layerNumber": "307/1",
+            "type": "boundary",
+            "position": [
+                [
+                    -30,
+                    -525
+                ],
+                [
+                    30,
+                    75
+                ]
+            ]
+        },
+        "82": {
+            "layerNumber": "307/1",
+            "type": "boundary",
+            "position": [
+                [
+                    870,
+                    -525
+                ],
+                [
+                    930,
+                    75
+                ]
+            ]
+        },
+        "83": {
+            "layerNumber": "305/2",
+            "type": "boundary",
+            "position": [
+                [
+                    90,
+                    -525
+                ],
+                [
+                    810,
+                    -519
+                ]
+            ]
+        },
+        "84": {
+            "layerNumber": "305/2",
+            "type": "boundary",
+            "position": [
+                [
+                    90,
+                    -123
+                ],
+                [
+                    810,
+                    75
+                ]
+            ]
+        },
+        "85": {
+            "layerNumber": "305/2",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -525
+                ],
+                [
+                    90,
+                    75
+                ]
+            ]
+        },
+        "86": {
+            "layerNumber": "305/2",
+            "type": "boundary",
+            "position": [
+                [
+                    810,
+                    -525
+                ],
+                [
+                    900,
+                    75
+                ]
+            ]
+        },
+        "87": {
+            "layerNumber": "307/2",
+            "type": "boundary",
+            "position": [
+                [
+                    90,
+                    -525
+                ],
+                [
+                    810,
+                    -519
+                ]
+            ]
+        },
+        "88": {
+            "layerNumber": "307/2",
+            "type": "boundary",
+            "position": [
+                [
+                    90,
+                    -123
+                ],
+                [
+                    810,
+                    75
+                ]
+            ]
+        },
+        "89": {
+            "layerNumber": "307/2",
+            "type": "boundary",
+            "position": [
+                [
+                    0,
+                    -525
+                ],
+                [
+                    90,
+                    75
+                ]
+            ]
+        },
+        "90": {
+            "layerNumber": "307/2",
+            "type": "boundary",
+            "position": [
+                [
+                    810,
+                    -525
+                ],
+                [
+                    900,
+                    75
+                ]
+            ]
+        },
+        "91": {
+            "layerNumber": "400/0",
+            "type": "boundary",
+            "position": [
+                [
+                    234,
+                    -64
+                ],
+                [
+                    306,
+                    64
+                ]
+            ]
+        },
+        "92": {
+            "layerNumber": "400/0",
+            "type": "boundary",
+            "position": [
+                [
+                    594,
+                    -64
+                ],
+                [
+                    666,
+                    64
+                ]
+            ]
+        },
+        "93": {
+            "layerNumber": "1000/2",
+            "type": "boundary",
+            "position": [
+                [
+                    140,
+                    -499
+                ],
+                [
+                    760,
+                    -451
+                ]
+            ]
+        },
+        "94": {
+            "layerNumber": "1000/3",
+            "type": "text",
+            "string": "IN",
+            "position": [
+                450,
+                -475
+            ]
+        },
+        "95": {
+            "layerNumber": "1000/2",
+            "type": "boundary",
+            "position": [
+                [
+                    44,
+                    -399
+                ],
+                [
+                    856,
+                    -351
+                ]
+            ]
+        },
+        "96": {
+            "layerNumber": "1000/3",
+            "type": "text",
+            "string": "OUT",
+            "position": [
+                450,
+                -375
+            ]
+        }
+    },
+    "layers": {
+        "100/0": [
+            0
+        ],
+        "103/0": [
+            1
+        ],
+        "101/0": [
+            2,
+            3,
+            4,
+            5,
+            6
+        ],
+        "104/0": [
+            7,
+            8,
+            9,
+            10,
+            11
+        ],
+        "305/0": [
+            12,
+            13,
+            14,
+            15
+        ],
+        "307/0": [
+            16,
+            17,
+            18,
+            19
+        ],
+        "310/0": [
+            20,
+            21
+        ],
+        "400/0": [
+            22,
+            24,
+            25,
+            27,
+            28,
+            91,
+            92
+        ],
+        "400/3": [
+            23,
+            26
+        ],
+        "402/0": [
+            29,
+            30,
+            31,
+            32,
+            33
+        ],
+        "404/0": [
+            34,
+            35,
+            36,
+            37
+        ],
+        "600/0": [
+            38,
+            39,
+            40
+        ],
+        "601/0": [
+            41,
+            42
+        ],
+        "700/0": [
+            43,
+            44,
+            45
+        ],
+        "701/0": [
+            46,
+            47,
+            48,
+            49
+        ],
+        "800/0": [
+            50,
+            51
+        ],
+        "800/1": [
+            52,
+            53
+        ],
+        "1000/0": [
+            54,
+            55
+        ],
+        "1000/1": [
+            56,
+            57
+        ],
+        "2000/0": [
+            58,
+            59,
+            60,
+            61,
+            62,
+            63
+        ],
+        "10000/0": [
+            64
+        ],
+        "100/1": [
+            65
+        ],
+        "103/1": [
+            66
+        ],
+        "800/2": [
+            67,
+            68
+        ],
+        "800/3": [
+            69,
+            70
+        ],
+        "305/1": [
+            71,
+            72,
+            73,
+            74,
+            79,
+            80
+        ],
+        "307/1": [
+            75,
+            76,
+            77,
+            78,
+            81,
+            82
+        ],
+        "305/2": [
+            83,
+            84,
+            85,
+            86
+        ],
+        "307/2": [
+            87,
+            88,
+            89,
+            90
+        ],
+        "1000/2": [
+            93,
+            95
+        ],
+        "1000/3": [
+            94,
+            96
+        ]
+    },
+    "layerProperties": {
+        "100/0": {
+            "color": "#FF9966",
+            "opacity": 1,
+            "offset": 200,
+            "height": 10,
+            "shape": "nanosheet",
+            "name": "NMOS_NANOSHEET"
+        },
+        "101/0": {
+            "color": "#FF5733",
+            "opacity": 1,
+            "offset": 125,
+            "height": 250,
+            "shape": "diamond",
+            "name": "NMOS_NANOSHEET_DIAMOND"
+        },
+        "103/0": {
+            "color": "#444444",
+            "opacity": 1,
+            "offset": 600,
+            "height": 10,
+            "shape": "nanosheet",
+            "name": "PMOS_NANOSHEET"
+        },
+        "104/0": {
+            "color": "#FF5733",
+            "opacity": 1,
+            "offset": 525,
+            "height": 250,
+            "shape": "diamond",
+            "name": "PMOS_NANOSHEET_DIAMOND"
+        },
+        "305/0": {
+            "color": "#30B0B0",
+            "opacity": 1,
+            "offset": 250,
+            "height": 275,
+            "shape": "box",
+            "name": "NMOS_GATE"
+        },
+        "307/0": {
+            "color": "#46C773",
+            "opacity": 1,
+            "offset": 525,
+            "height": 275,
+            "shape": "box",
+            "name": "PMOS_GATE"
+        },
+        "400/0": {
+            "color": "#37FEFD",
+            "opacity": 1,
+            "offset": 250,
+            "height": 150,
+            "shape": "box",
+            "name": "NMOS_INTERCONNECT"
+        },
+        "402/0": {
+            "color": "#61CB21",
+            "opacity": 1,
+            "offset": 650,
+            "height": 150,
+            "shape": "box",
+            "name": "PMOS_INTERCONNECT"
+        },
+        "404/0": {
+            "color": "#FF0000",
+            "opacity": 1,
+            "offset": 100,
+            "height": 150,
+            "shape": "box",
+            "name": "VIA_FROM_INTERCONNECT_TO_BACKSIDE_POWER_TSVBAR"
+        },
+        "600/0": {
+            "color": "#62FF00",
+            "opacity": 1,
+            "offset": 400,
+            "height": 250,
+            "shape": "box",
+            "name": "VIA_FROM_PMOS_INTERCONNECT_TO_NMOS_INTERCONNECT"
+        },
+        "700/0": {
+            "color": "#FF0080",
+            "opacity": 1,
+            "offset": 800,
+            "height": 125,
+            "shape": "box",
+            "name": "VIA_FROM_M0_TO_PMOS_INTERCONNECT"
+        },
+        "701/0": {
+            "color": "#FF00FF",
+            "opacity": 1,
+            "offset": 775,
+            "height": 150,
+            "shape": "box",
+            "name": "VIA_FROM_M0_TO_PMOS_GATE"
+        },
+        "702/0": {
+            "color": "#D133FF",
+            "opacity": 1,
+            "offset": 350,
+            "height": 575,
+            "shape": "box",
+            "name": "VIA_FROM_M0_TO_PMOS_INTERCONNECT"
+        },
+        "703/0": {
+            "color": "#8D0000",
+            "opacity": 1,
+            "offset": 525,
+            "height": 400,
+            "shape": "box",
+            "name": "VIA_FROM_M0_TO_NMOS_INTERCONNECT"
+        },
+        "750/0": {
+            "color": "#FFDC69",
+            "opacity": 1,
+            "offset": 1025,
+            "height": 150,
+            "shape": "box",
+            "name": "VIA_FROM_M0_TO_M1"
+        },
+        "800/0": {
+            "color": "#FD68B3",
+            "opacity": 1,
+            "offset": 0,
+            "height": 100,
+            "shape": "box",
+            "name": "BACKSIDE_POWER_LINES"
+        },
+        "1000/0": {
+            "color": "#F0FF69",
+            "opacity": 1,
+            "offset": 925,
+            "height": 100,
+            "shape": "box",
+            "name": "M0"
+        },
+        "1050/0": {
+            "color": "#698CFF",
+            "opacity": 1,
+            "offset": 1175,
+            "height": 100,
+            "shape": "box",
+            "name": "M1"
+        }
+    },
+    "conductivePaths": []
+}
