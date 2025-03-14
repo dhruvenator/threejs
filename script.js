@@ -31,15 +31,6 @@ const lightTargetObject = new THREE.Object3D();
 const gui = new dat.GUI();
 let renderer = new THREE.WebGLRenderer();
 
-// Clipping planes for the renderer
-const clippingPlaneX = new THREE.Plane(new THREE.Vector3(1, 0, 0), -cellData.cellBbox[0][0] + 5);
-const clippingPlaneY = new THREE.Plane(new THREE.Vector3(0, 1, 0), -cellData.cellBbox[0][1] + 5);
-const clippingPlaneZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 500);
-const clippingPlanes = [clippingPlaneX, clippingPlaneY, clippingPlaneZ];
-gui.add(clippingPlaneX, 'constant', -cellData.cellBbox[1][0] - 5, -cellData.cellBbox[0][0] + 5).name('X Clipping Position').onChange(updateClippingPlanes);
-gui.add(clippingPlaneY, 'constant', -cellData.cellBbox[1][1] - 5, -cellData.cellBbox[0][1] + 5).name('Y Clipping Position').onChange(updateClippingPlanes);
-gui.add(clippingPlaneZ, 'constant', -500, 500).name('Z Clipping Position').onChange(updateClippingPlanes);
-
 // Arrays to store the objects created in the scene
 let sheets = [];
 let boxes = [];
@@ -48,6 +39,23 @@ let cylinders = [];
 let textMeshes = [];
 let z_start = 0;
 let z_end = 0;
+
+// Get z-axis start and end position
+Object.keys(layerProperties).forEach(key => {
+    let obj = layerProperties[key];
+    z_start = Math.min(z_start, obj.offset);
+    z_end = Math.max(z_start, obj.offset + obj.height);
+});
+console.log()
+
+// Clipping planes for the renderer
+const clippingPlaneX = new THREE.Plane(new THREE.Vector3(1, 0, 0), -cellData.cellBbox[0][0] + 5);
+const clippingPlaneY = new THREE.Plane(new THREE.Vector3(0, 1, 0), -cellData.cellBbox[0][1] + 5);
+const clippingPlaneZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), -z_start);
+const clippingPlanes = [clippingPlaneX, clippingPlaneY, clippingPlaneZ];
+gui.add(clippingPlaneX, 'constant', -cellData.cellBbox[1][0] - 5, -cellData.cellBbox[0][0] + 5).name('X Clipping Position').onChange(updateClippingPlanes);
+gui.add(clippingPlaneY, 'constant', -cellData.cellBbox[1][1] - 5, -cellData.cellBbox[0][1] + 5).name('Y Clipping Position').onChange(updateClippingPlanes);
+gui.add(clippingPlaneZ, 'constant', -z_end - 5, -z_start + 5).name('Z Clipping Position').onChange(updateClippingPlanes);
 
 // GUI parameters
 const nanoSheetsParam = {
@@ -70,19 +78,11 @@ const layerFolder = gui.addFolder('Layers');
 const conductingFolder = gui.addFolder('Conducting Paths');
 const layerDictionary = {};
 
-// Get z-axis start and end position
-Object.keys(layerProperties).forEach(key => {
-    let obj = layerProperties[key];
-    z_start = Math.min(z_start, obj.offset);
-    z_end = Math.max(z_start, obj.offset + obj.height);
-});
-console.log()
-
 document.addEventListener('DOMContentLoaded', () => {
     // Camera is positioned at the center of the cell bounding box, 1000 units directly above
     camera.position.x = (cellData.cellBbox[0][0] + cellData.cellBbox[1][0]) / 2;
     camera.position.y = (cellData.cellBbox[0][1] + cellData.cellBbox[1][1]) / 2;
-    camera.position.z = 1000;
+    camera.position.z = z_end + 1000;
     scene.add(camera);
 
     // Change background color
